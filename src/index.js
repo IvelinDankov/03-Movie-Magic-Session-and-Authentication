@@ -7,6 +7,7 @@ import homeController from "./controllers/homeController.js";
 import movieController from "./controllers/movieController.js";
 import castController from "./controllers/castController.js";
 import userController from "./controllers/userController.js";
+import { auth } from "./middlewares/authMiddleware.js";
 
 // Init express instance
 const app = express();
@@ -19,6 +20,9 @@ app.use(express.urlencoded());
 
 // add cookie parser
 app.use(cookieParser());
+
+// middle man
+app.use(auth);
 
 // Add and config view engine
 app.engine(

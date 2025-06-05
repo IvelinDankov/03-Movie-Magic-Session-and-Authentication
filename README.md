@@ -21,9 +21,13 @@ SoftUni JS Back-End Course Workshop
   - set auth cookie
   - redirect to home page 'for example'
 - User Service Login
+
   - Get user from DB
   - Exist or Not
   - Valid Pass
   - If Not Valid ?
-  - Valid ok... Generate Token with jwt
+  - Valid ok... Generate Token with jwt /at first payload/
   - return this Token end send to userController
+  - in userController add token to cookie
+
+- Create Middleware for cookie and token.
