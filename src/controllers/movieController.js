@@ -1,71 +1,72 @@
-import express from 'express'
-import movieService from '../services/movieService.js';
-import castService from '../services/castService.js';
+import express from "express";
+import movieService from "../services/movieService.js";
+import castService from "../services/castService.js";
 
 const movieController = express.Router();
 
-movieController.get('/create', (req, res) => {
-    res.render('create');
+movieController.get("/create", (req, res) => {
+  res.render("create");
 });
 
-movieController.post('/create', async (req, res) => {
-    const newMovie = req.body;
+movieController.post("/create", async (req, res) => {
+  const newMovie = req.body;
+  const userId = req.user.id;
 
-    // Save Movie
-    await movieService.create(newMovie);
+  // Save Movie
+  await movieService.create(userId, newMovie);
 
-    // Redirect to home page
-    res.redirect('/');
+  // Redirect to home page
+  res.redirect("/");
 });
 
-movieController.get('/:movieId/details', async (req, res) => {
-    // Get movie id from params
-    const movieId = req.params.movieId;
+movieController.get("/:movieId/details", async (req, res) => {
+  // Get movie id from params
+  const movieId = req.params.movieId;
 
-    // Get movie data with populated casts
-    const movie = await movieService.getOne(movieId);
+  // Get movie data with populated casts
+  const movie = await movieService.getOne(movieId);
 
-    // Get movie cast
-    // const casts = await movieService.getCasts(movieId)
+  // Get movie cast
+  // const casts = await movieService.getCasts(movieId)
 
-    res.render('movie/details', { movie });
+  res.render("movie/details", { movie });
 });
 
-movieController.get('/search', async (req, res) => {
-    // Get querystring
-    const filter = req.query;
+movieController.get("/search", async (req, res) => {
+  // Get querystring
+  const filter = req.query;
 
-    // Get all movies
-    const movies = await movieService.getAll(filter);
+  // Get all movies
+  const movies = await movieService.getAll(filter);
 
-    res.render('search', { movies, filter });
+  res.render("search", { movies, filter });
 });
 
-movieController.get('/:movieId/attach', async (req, res) => {
-    const movieId = req.params.movieId;
+movieController.get("/:movieId/attach", async (req, res) => {
+  const movieId = req.params.movieId;
 
-    // Get movie by id
-    const movie = await movieService.getOne(movieId);
+  // Get movie by id
+  const movie = await movieService.getOne(movieId);
 
-    // get all casts
-    const casts = await castService.getAll({ exclude: movie.casts });
+  // get all casts
+  const casts = await castService.getAll({ exclude: movie.casts });
 
-    // Pass casts to template
-    res.render('movie/attach', { movie, casts });
+  // Pass casts to template
+  res.render("movie/attach", { movie, casts });
 });
 
-movieController.post('/:movieId/attach', async (req, res) => {
-    // Get movie id
-    const movieId = req.params.movieId;
+movieController.post("/:movieId/attach", async (req, res) => {
+  // Get movie id
+  const movieId = req.params.movieId;
 
-    // Get cast id
-    const castId = req.body.cast;
+  // Get cast id
+  const castId = req.body.cast;
 
-    // Attach cast to movie
-    await movieService.attach(movieId, castId);
+  // Attach cast to movie
+  await movieService.attach(movieId, castId);
 
-    // Redirect to movie details page
-    res.redirect(`/movies/${movieId}/details`);
+  // Redirect to movie details page
+  res.redirect(`/movies/${movieId}/details`);
 });
 
 export default movieController;

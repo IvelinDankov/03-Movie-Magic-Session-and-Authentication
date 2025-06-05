@@ -16,24 +16,25 @@ SoftUni JS Back-End Course Workshop
 - Install bcrypt and hash pass in User Model with pre fn.
 - Save User with create
 
-- in Login page POST
+# in Login page POST
 
-  - Take user data
-  - call service login
-  - set auth cookie
-  - redirect to home page 'for example'
+- Take user data
+- call service login
+- set auth cookie
+- redirect to home page 'for example'
 
-- User Service Login
+# User Service Login
 
-  - Get user from DB
-  - Exist or Not
-  - Valid Pass
-  - If Not Valid ?
-  - Valid ok... Generate Token with jwt /at first payload/
-  - return this Token end send to userController
-  - in userController add (attach) token to cookie
+- Get user from DB
+- Exist or Not
+- Valid Pass
+- If Not Valid ?
+- Valid ok... Generate Token with jwt /at first payload/
+- return this Token end send to userController
+- in userController add (attach) token to cookie
 
-- Create Middleware for cookie and token.
+# Create Middleware for cookie and token.
+
 - call cookie in middleware `req.cookies['auth']`
 - save this called cookie in token
 - verify token with jwt
@@ -41,3 +42,7 @@ SoftUni JS Back-End Course Workshop
 - attach to req.user = decodedToken (email, id) and don't forget to call next()
 - if error throw error message and redirect to login
 - clear cookie 'res.clearCookie('auth')
+
+# Relation to owner
+
+- get user Id and send to create {...movieData, owner: userId}
