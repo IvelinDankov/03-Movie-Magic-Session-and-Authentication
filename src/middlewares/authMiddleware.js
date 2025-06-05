@@ -1,7 +1,20 @@
+import jwt from "jsonwebtoken";
+import { SECRET } from "../config/genaral.js";
+
 export const auth = (req, res, next) => {
   const token = req.cookies["auth"];
 
-  console.log(token);
+  if (!token) {
+    next();
+  }
+  try {
+    const { id, email } = jwt.verify(token, SECRET);
 
-  next();
+    req.user = { id, email };
+
+    next();
+  } catch (err) {
+    res.clearCookie("auth");
+    res.redirect("/user/login");
+  }
 };
