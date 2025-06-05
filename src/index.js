@@ -16,15 +16,15 @@ const app = express();
 app.use(express.static("./src/public"));
 
 // Add body parser
-app.use(express.urlencoded());
+// middle man
 
 // add cookie parser
 app.use(cookieParser());
 
-// middle man
 app.use(auth);
-
 // Add and config view engine
+app.use(express.urlencoded());
+
 app.engine(
   "hbs",
   handlebars.engine({

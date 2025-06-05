@@ -46,3 +46,12 @@ SoftUni JS Back-End Course Workshop
 # Relation to owner
 
 - get user Id and send to create {...movieData, owner: userId}
+
+# In Details Page Check if user is owner
+
+- take user Id and check movie.owner == userId
+- render conditanally three btns if is owner
+
+# Dynamic Navigation
+
+- with auth middlaware and res.locals /express/ put in res.locals.user = {id, email}

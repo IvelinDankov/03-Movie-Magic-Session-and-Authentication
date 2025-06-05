@@ -23,13 +23,17 @@ movieController.get("/:movieId/details", async (req, res) => {
   // Get movie id from params
   const movieId = req.params.movieId;
 
+  const userId = req.user?.id;
+
   // Get movie data with populated casts
   const movie = await movieService.getOne(movieId);
 
   // Get movie cast
   // const casts = await movieService.getCasts(movieId)
 
-  res.render("movie/details", { movie });
+  const isOwner = movie.owner == userId;
+
+  res.render("movie/details", { movie, isOwner });
 });
 
 movieController.get("/search", async (req, res) => {
@@ -67,6 +71,23 @@ movieController.post("/:movieId/attach", async (req, res) => {
 
   // Redirect to movie details page
   res.redirect(`/movies/${movieId}/details`);
+});
+
+movieController.get("/:movieId/delete", async (req, res) => {
+  // get movie id
+  const movieId = req.params.movieId;
+
+  // check if is owner
+  const movie = await movieService.getOne(movieId);
+  const isOwner = movie.owner == req.user?.id;
+  if (!isOwner) {
+    throw new Error("You are not owner!!");
+  }
+  // all service and remove
+
+  await movieService.delete(movieId);
+
+  res.redirect("/");
 });
 
 export default movieController;

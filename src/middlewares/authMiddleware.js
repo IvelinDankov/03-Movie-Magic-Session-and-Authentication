@@ -5,12 +5,14 @@ export const auth = (req, res, next) => {
   const token = req.cookies["auth"];
 
   if (!token) {
-    next();
+    return next();
   }
   try {
     const { id, email } = jwt.verify(token, SECRET);
 
     req.user = { id, email };
+
+    res.locals.user = { id, email };
 
     next();
   } catch (err) {

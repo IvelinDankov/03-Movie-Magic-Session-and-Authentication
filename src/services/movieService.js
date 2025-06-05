@@ -46,4 +46,8 @@ export default {
 
   //     return casts;
   // }
+
+  delete(movieId) {
+    return Movie.findOneAndDelete(movieId);
+  },
 };
